@@ -1,0 +1,99 @@
+{
+  "PRODUCT_CATEGORIES": [
+    {
+      "NAME": "Cheveux",
+      "SUBCATEGORIES": [
+        "Anti-poux",
+        "Appareils & Outils de Coiffure",
+        "Après-shampooing / Soin des cheveux",
+        "COLORATIONS",
+        "Laques et Produits Coiffants",
+        "Shampooing",
+        "Shampooing sec",
+        "Soins Anti-chute"
+      ]
+    },
+    {
+      "NAME": "Visage",
+      "SUBCATEGORIES": [
+        "Démaquillants, Nettoyants visage",
+        "Eaux Thermales",
+        "Gommages et Exfoliants Visage",
+        "Maquillage",
+        "Masques Visage",
+        "Outils & Accessoires Beauté",
+        "Soins Anti-rougeurs / peau Sensible / squames",
+        "Soins Anti-taches et Dépigmentants",
+        "Soins Anti-âge et Anti-rides",
+        "Soins Hydratants et Nutrition",
+        "Soins Réparateurs / Cicatrisants",
+        "Soins peau Grasse / Mixte et Acné",
+        "Soins pour Homme",
+        "Yeux et lèvres"
+      ]
+    },
+
+    {
+      "NAME": "Corps",
+      "SUBCATEGORIES": [
+        "Accessoires Manucure et Pédicure",
+        "Epilation / décoloration",
+        "Gommage et Exfoliant Corps",
+        "Hydratation et Nutrition Corps",
+        "Lait Corps Eclaircissant",
+        "Manucure",
+        "Massage",
+        "Parfum",
+        "Soins Buste et Seins",
+        "Soins des Mains",
+        "Soins des Pieds",
+        "Vitiligo"
+      ]
+    },
+
+    {
+      "NAME": "Santé",
+      "SUBCATEGORIES": ["sous categorie 1", "sous categorie 2"]
+    },
+
+    {
+      "NAME": "Dentaire",
+      "SUBCATEGORIES": ["sous categorie 1", "sous categorie 2"]
+    },
+
+    {
+      "NAME": "Bébé Maman",
+      "SUBCATEGORIES": ["sous categorie 1", "sous categorie 2"]
+    },
+
+    {
+      "NAME": "Minceur",
+      "SUBCATEGORIES": ["sous categorie 1", "sous categorie 2"]
+    },
+
+    {
+      "NAME": "Solaire",
+      "SUBCATEGORIES": ["sous categorie 1", "sous categorie 2"]
+    },
+
+    {
+      "NAME": "NATUREL et bio",
+      "SUBCATEGORIES": ["sous categorie 1", "sous categorie 2"]
+    },
+
+    {
+      "NAME": "COMPLÉMENTS ALIMENTAIRES",
+      "SUBCATEGORIES": ["sous categorie 1", "sous categorie 2"]
+    },
+
+    {
+      "NAME": "AROMATHÉRAPIE",
+      "SUBCATEGORIES": ["sous categorie 1", "sous categorie 2"]
+    },
+
+    {
+      "NAME": "Cheveux",
+      "SUBCATEGORIES": ["sous categorie 1", "sous categorie 2"]
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+.login-container {
+  margin: 5rem 1rem;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  row-gap: 3rem;
+  grid-template-columns: 1fr;
+}
+
+.signup-img {
+  max-width: 100%;
+  max-height: 20rem;
+  justify-self: center;
+  margin-top: 3rem;
+  //   align-self: center;
+}
+
+@media (min-width: 768px) {
+  .login-container {
+    margin: 7rem 2rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+    column-gap: 2rem;
+  }
+
+  //   .main-container {
+  //     margin-right: 2rem;
+  //   }
+
+  // .main-container {
+  // }
+}

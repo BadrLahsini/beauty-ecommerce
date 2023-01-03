@@ -1,0 +1,47 @@
+@import "./_variables.scss";
+@import "~bootstrap/scss/bootstrap";
+@import "./_bootswatch.scss";
+
+@import "swiper/scss";
+@import "swiper/scss/navigation";
+
+.cursorPointer {
+  cursor: pointer;
+}
+
+.flexGrow {
+  flex-grow: 1;
+}
+
+.flexWrap {
+  flex-wrap: wrap;
+}
+
+a {
+  text-decoration: none;
+}
+
+body {
+  // background-color: #fffcfb;
+  background-color: #fcfdfc;
+  overflow: auto;
+}
+
+.dropdown-menu[data-bs-popper] {
+  top: 100%;
+  right: auto;
+  left: -5rem;
+  margin-top: var(--bs-dropdown-spacer);
+}
+
+.form-control {
+  border-width: 0.5px;
+}
+
+// input:invalid {
+//   background-color: #ffdddd;
+// }
+
+// input:required {
+//   background-color: #f7f7f9;
+// }

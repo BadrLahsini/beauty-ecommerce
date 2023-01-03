@@ -1,0 +1,50 @@
+.product-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 1fr;
+  column-gap: 2rem;
+  min-height: 60vh;
+}
+
+.product-image {
+  max-width: 100%;
+  height: auto;
+  justify-self: center;
+}
+
+.product-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.add-product {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.qty-form {
+  text-align: center;
+  &::placeholder {
+    color: #343a40;
+  }
+}
+
+.btn-custom {
+  background-color: #fd8d83;
+  color: white;
+}
+
+// .add-qty-product {
+//   max-width: 20rem;
+// }
+
+@media (min-width: 768px) {
+  .product-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+    column-gap: 2rem;
+  }
+}

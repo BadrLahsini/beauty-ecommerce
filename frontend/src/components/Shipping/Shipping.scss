@@ -1,0 +1,24 @@
+// $grid-breakpoints: (
+//   xs: 0,
+//   sm: 576px,
+//   md: 768px,
+//   lg: 992px,
+//   xl: 1200px,
+//   xxl: 1400px
+// )
+
+.ShippingContainer {
+  margin: 7rem 1rem 5rem 1rem;
+}
+
+@media (min-width: 768px) {
+  .ShippingContainer {
+    margin: 7rem 2rem;
+  }
+}
+
+@media (min-width: 992px) {
+  .ShippingContainer {
+    margin: 7rem 5rem;
+  }
+}

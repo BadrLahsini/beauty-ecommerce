@@ -1,0 +1,7 @@
+export const CART_ADD_ITEM = "CART_ADD_ITEM";
+export const CART_CLEAR_ITEMS = "CART_RESET";
+export const CART_REMOVE_ITEM = "CART_REMOVE_ITEM";
+
+export const WISH_ADD_ITEM = "WISH_ADD_ITEM";
+export const WISH_CLEAR_ITEMS = "WISH_RESET";
+export const WISH_REMOVE_ITEM = "WISH_REMOVE_ITEM";
