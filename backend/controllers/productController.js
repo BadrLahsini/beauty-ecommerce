@@ -17,7 +17,7 @@ const getProductsInfo = asyncHandler(async (req, res) => {
 });
 
 const getProductCategory = async (req, res, filter) => {
-  const pageSize = 40;
+  const pageSize = 30;
   const page = Number(req.query.page) || 1;
 
   let keyword = req.query.keyword

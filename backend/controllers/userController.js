@@ -24,6 +24,7 @@ const authUser = asyncHandler(async (req, res) => {
 
       email: user.email,
       phone: user.phone,
+      address: user.address,
       points: user.points,
       role: user.role,
       status: user.status,
@@ -113,6 +114,7 @@ const verifyUser = asyncHandler(async (req, res) => {
 
       email: user.email,
       phone: user.phone,
+      address: user.address,
       points: user.points,
       role: user.role,
       status: user.status,
@@ -139,6 +141,8 @@ const getUserProfile = asyncHandler(async (req, res) => {
 
       email: user.email,
       phone: user.phone,
+      address: user.address,
+
       points: user.points,
       role: user.role,
       status: user.status,
@@ -199,6 +203,7 @@ const modifyPassword = asyncHandler(async (req, res) => {
 // @route   PUT /api/users/profile
 // @access  Private
 const updateUserProfile = asyncHandler(async (req, res) => {
+  console.log("updating user profile...");
   const user = await User.findById(req.user._id);
 
   if (user) {
@@ -206,7 +211,8 @@ const updateUserProfile = asyncHandler(async (req, res) => {
     user.lastName = req.body.lastName || user.lastName;
 
     user.email = req.body.email || user.email;
-    user.email = req.body.phone || user.phone;
+    user.phone = req.body.phone || user.phone;
+    user.address = req.body.address || user.address;
 
     if (req.body.password) {
       user.password = req.body.password;
@@ -221,6 +227,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 
       email: updatedUser.email,
       phone: updatedUser.phone,
+      address: updatedUser.address,
       role: user.role,
       status: user.status,
 
@@ -283,6 +290,7 @@ const updateUser = asyncHandler(async (req, res) => {
     user.phone = req.body.phone || user.phone;
     user.points = req.body.points || user.points;
     user.role = req.body.role || user.role;
+    user.address = req.body.address || user.address;
 
     const updatedUser = await user.save();
 
@@ -294,6 +302,8 @@ const updateUser = asyncHandler(async (req, res) => {
       email: updatedUser.email,
       phone: updatedUser.phone,
       points: updatedUser.points,
+      address: updatedUser.address,
+
       role: updatedUser.role,
       status: updatedUser.status,
     });

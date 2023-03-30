@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import "./ShoppingList.scss";
@@ -16,6 +16,7 @@ import ShoppingPagination from "./ShoppingPagination";
 const ShoppingList = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  let shoppingListRef = useRef();
   const { category } = useParams();
   const [searchParams] = useSearchParams();
   const isSub = searchParams.get("sub") == "true" ? true : false;
@@ -35,8 +36,9 @@ const ShoppingList = () => {
     productUrl,
     categoryDetailsUrl,
   } = useSelector((state) => state.productList);
+
   const SetcurrentPage = (p) => {
-    window.scrollTo(0, 0);
+    window.scrollTo(0, 300);
     navigate({
       pathname: `/shop/${category}`,
       search: `?q=${keyword}&page=${p}&sort=${currsort}&marque=${currMarque}&sub=${isSub}`,
@@ -127,8 +129,6 @@ const ShoppingList = () => {
     }
   };
 
-  ////// PAGINATION ////////
-
   return (
     <>
       <section>
@@ -206,7 +206,7 @@ const ShoppingList = () => {
                 <hr />
               </div>
 
-              <div className="main-shopping-list">
+              <div ref={shoppingListRef} className="main-shopping-list">
                 {products &&
                   products.map((item) => (
                     <Item key={item._id} item={item}></Item>

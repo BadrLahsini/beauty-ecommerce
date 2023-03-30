@@ -5,6 +5,8 @@ import {
   PRODUCT_LIST_FAIL,
   PRODUCT_LIST_REQUEST,
   PRODUCT_LIST_SUCCESS,
+  CATEGORIES_ALL_SUCCESS,
+  CATEGORIES_ALL_FAIL,
 } from "../constants/productConstants";
 
 export const productListReducer = (state = { products: [] }, action) => {
@@ -33,6 +35,17 @@ export const productListReducer = (state = { products: [] }, action) => {
         subCategories: action.payload.subCategories,
         marques: action.payload.marques,
         categoryDetailsUrl: action.payload.categoryDetailsUrl,
+      };
+    case CATEGORIES_ALL_SUCCESS:
+      return {
+        ...state,
+        categories: action.payload,
+      };
+    case CATEGORIES_ALL_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
       };
     default:
       return state;

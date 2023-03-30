@@ -12,14 +12,15 @@ const Cart = () => {
   const total = cartItems.reduce((prev, curr) => {
     return parseFloat((prev + curr.product.prix * curr.qty).toFixed(2));
   }, 0);
-
   return (
     <section className="bag-container">
       <div className="checkout-validate mx-3 my-4">
         <h2>Mon Panier</h2>
-        <button type="button" className="btn btn-success ">
-          Commander
-        </button>
+        <Link to={cartItems.length > 0 ? `/shipping` : `/`}>
+          <button type="button" className="btn btn-success">
+            Commander
+          </button>
+        </Link>
       </div>
 
       {cartItems.map((item) => (
@@ -30,7 +31,7 @@ const Cart = () => {
       ))}
       <hr className="hr mx-3" />
       <div className="checkout-validate mx-3 my-4">
-        <Link to="/shipping">
+        <Link to={cartItems.length > 0 ? `/shipping` : `/`}>
           <button type="button" className="btn btn-success ">
             Commander
           </button>

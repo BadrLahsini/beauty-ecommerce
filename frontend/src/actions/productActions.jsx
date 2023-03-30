@@ -5,6 +5,9 @@ import {
   CATEGORY_DETAILS_SUCCESS,
   PRODUCT_LIST_CACHE,
   CATEGORY_DETAILS_CACHE,
+  CATEGORIES_ALL_SUCCESS,
+  CATEGORIES_ALL_CACHE,
+  CATEGORIES_ALL_FAIL,
 } from "../constants/productConstants";
 
 import axios from "axios";
@@ -25,7 +28,6 @@ export const listProducts =
       var url = isSubCategory
         ? `/api/products/subcategory/${category}?keyword=${keyword}&page=${pageNumber}&sort=${sort}&marque=${marque}`
         : `/api/products/category/${category}?keyword=${keyword}&page=${pageNumber}&sort=${sort}&marque=${marque}`;
-      console.log(url);
 
       if (url == productUrl) {
         dispatch({
@@ -54,7 +56,6 @@ export const listCategoryDetails =
       var url = isSubCategory
         ? `/api/products/categorydetails/${category}?keyword=${keyword}&isSub=${isSubCategory}`
         : `/api/products/categorydetails/${category}?keyword=${keyword}`;
-      console.log(url);
       if (url == categoryDetailsUrl) {
         dispatch({
           type: CATEGORY_DETAILS_CACHE,
@@ -72,3 +73,28 @@ export const listCategoryDetails =
       dispatch({ type: PRODUCT_LIST_FAIL, payload: e });
     }
   };
+
+export const listAllCategories = () => async (dispatch, getState) => {
+  try {
+    const {
+      productList: { categories },
+    } = getState();
+    if (categories) {
+      console.log("dispatching the same");
+      dispatch({
+        type: CATEGORIES_ALL_SUCCESS,
+        payload: categories,
+      });
+    } else {
+      console.log("listing alllllllllllllll");
+      const { data } = await axios.get(`/api/products`);
+      dispatch({
+        type: CATEGORIES_ALL_SUCCESS,
+        payload: data,
+      });
+    }
+  } catch (e) {
+    console.log(e);
+    dispatch({ type: CATEGORIES_ALL_FAIL, payload: e });
+  }
+};

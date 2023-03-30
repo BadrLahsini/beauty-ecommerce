@@ -12,19 +12,19 @@ const Message = () => {
     if (location?.state?.message) {
       setMessage(location?.state?.message);
     }
-  });
+  }, [location]);
 
   return (
     <section className="mainMessage">
-      <Alert variant={variant}>
+      <Alert variant={variant || "info"}>
         <div className="alertMessage">{message}</div>
       </Alert>
     </section>
   );
 };
 
-Message.defaultProps = {
-  variant: "info",
-};
+// Message.defaultProps = {
+//   variant: "info",
+// };
 
 export default Message;

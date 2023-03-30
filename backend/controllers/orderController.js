@@ -94,6 +94,17 @@ const updateOrderToPaid = asyncHandler(async (req, res) => {
   }
 });
 
+// @desc    Update order to paid
+// @route   GET /api/orders/:id/cancel
+// @access  Private
+const deleteOrder = asyncHandler(async (req, res) => {
+  await Order.deleteOne({ _id: req.params.id });
+  res.status(200);
+  res.send({
+    message: "ordre annule",
+  });
+});
+
 // @desc    Update order to delivered
 // @route   GET /api/orders/:id/deliver
 // @access  Private/Admin
@@ -145,11 +156,32 @@ const updateOrderToOrdered = asyncHandler(async (req, res) => {
   }
 });
 
+const resetOrder = asyncHandler(async (req, res) => {
+  const order = await Order.findById(req.params.id);
+
+  if (order) {
+    order.isOrdered = false;
+    order.isSent = false;
+    order.isDelivered = false;
+
+    const updatedOrder = await order.save();
+
+    res.json(updatedOrder);
+  } else {
+    res.status(404);
+    throw new Error("Order not found");
+  }
+});
+
 // @desc    Get logged in user orders
 // @route   GET /api/orders/myorders
 // @access  Private
 const getMyOrders = asyncHandler(async (req, res) => {
-  const orders = await Order.find({ user: req.user._id });
+  const pageSize = 30;
+  const orders = await Order.find({ user: req.user._id })
+    .populate("orderItems.product")
+    .limit(pageSize)
+    .sort({ _id: -1 });
   res.json(orders);
 });
 
@@ -157,8 +189,46 @@ const getMyOrders = asyncHandler(async (req, res) => {
 // @route   GET /api/orders
 // @access  Private/Admin
 const getOrders = asyncHandler(async (req, res) => {
-  const orders = await Order.find({}).populate("user", "id name");
-  res.json(orders);
+  const pageSize = 30;
+  const page = Number(req.query.page) || 1;
+  const count = await Order.countDocuments();
+  const orders = await Order.find({})
+    .populate("user", "id name")
+    .populate("orderItems.product")
+    .limit(pageSize)
+    .skip(pageSize * (page - 1))
+    .sort({ _id: -1 });
+
+  if (orders) {
+    res.json({ orders, page, pages: Math.ceil(count / pageSize) });
+  }
+});
+
+const searchOrders = asyncHandler(async (req, res) => {
+  let orders;
+  switch (req.query.select) {
+    case "id":
+      orders = await Order.find({ _id: req.params.keyword });
+      break;
+    case "phone":
+      orders = await Order.find({ "shippingUser.phone": req.params.keyword });
+      break;
+    case "email":
+      orders = await Order.find({ "shippingUser.email": req.params.keyword });
+      break;
+    case "name":
+      orders = await Order.find({
+        "shippingUser.lastName": req.params.keyword,
+      });
+      break;
+  }
+
+  if (orders) {
+    res.json(orders);
+  } else {
+    res.status(404);
+    throw new Error("Order not found");
+  }
 });
 
 export {
@@ -170,4 +240,7 @@ export {
   getOrders,
   updateOrderToSent,
   updateOrderToOrdered,
+  deleteOrder,
+  resetOrder,
+  searchOrders,
 };

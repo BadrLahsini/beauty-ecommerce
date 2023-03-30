@@ -16,16 +16,22 @@ export const addToCart = (product, qty) => (dispatch, getState) => {
     },
   });
 
-  localStorage.setItem(
-    "SequoiaCartItems",
-    JSON.stringify(getState().cart.cartItems)
-  );
+  localStorage.setItem("cartItems", JSON.stringify(getState().cart.cartItems));
 };
 
 export const removeFromCart = (id) => (dispatch, getState) => {
   dispatch({
     type: CART_REMOVE_ITEM,
     payload: id,
+  });
+
+  localStorage.setItem("cartItems", JSON.stringify(getState().cart.cartItems));
+};
+
+export const clearCart = () => (dispatch, getState) => {
+  dispatch({
+    type: CART_CLEAR_ITEMS,
+    payload: {},
   });
 
   localStorage.setItem("cartItems", JSON.stringify(getState().cart.cartItems));
@@ -40,7 +46,7 @@ export const addToWishList = (product) => (dispatch, getState) => {
   });
 
   localStorage.setItem(
-    "SequoiaWishListItems",
+    "wishListItems",
     JSON.stringify(getState().wishList.wishListItems)
   );
 };
@@ -52,7 +58,7 @@ export const removeFromWishList = (id) => (dispatch, getState) => {
   });
 
   localStorage.setItem(
-    "WishListItems",
+    "wishListItems",
     JSON.stringify(getState().wishList.wishListItems)
   );
 };

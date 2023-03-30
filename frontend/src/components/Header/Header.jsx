@@ -117,7 +117,7 @@ const Header = () => {
             }}
           >
             <Link to="/">
-              <img src="/logo_clip.png" className="img-nav" alt="" />
+              <img src="/logoround.jpg" className="img-nav" alt="" />
             </Link>
             <Link to="/">
               <h2 className="main-sequoia ms-md-2">SEQUOIA</h2>

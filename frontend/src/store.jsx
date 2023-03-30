@@ -45,12 +45,12 @@ const reducer = combineReducers({
   orderList: orderListReducer,
 });
 
-const cartItemFromStorage = localStorage.getItem("SequoiaCartItems")
-  ? JSON.parse(localStorage.getItem("SequoiaCartItems"))
+const cartItemFromStorage = localStorage.getItem("cartItems")
+  ? JSON.parse(localStorage.getItem("cartItems"))
   : [];
 
-const wishListItemsFromStorage = localStorage.getItem("SequoiawishListItems")
-  ? JSON.parse(localStorage.getItem("SequoiawishListItems"))
+const wishListItemsFromStorage = localStorage.getItem("wishListItems")
+  ? JSON.parse(localStorage.getItem("wishListItems"))
   : [];
 
 const userInfoFromStorage = localStorage.getItem("userInfo")

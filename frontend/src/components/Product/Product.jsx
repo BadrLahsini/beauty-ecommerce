@@ -3,21 +3,25 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import "./Product.scss";
-import { IoHeartOutline } from "react-icons/io5";
-import { useLocation, useParams } from "react-router-dom";
-import Message from "../Message/Message";
+import { IoHeartOutline, IoCreateOutline } from "react-icons/io5";
+import { Link, useLocation, useParams } from "react-router-dom";
 import { addToCart, addToWishList } from "../../actions/cartActions";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import axios from "axios";
+import { Alert } from "react-bootstrap";
 
 const Product = () => {
   const location = useLocation();
   const [qty, setQty] = useState(1);
   const [product, setProduct] = useState();
   const dispatch = useDispatch();
+  const userLogin = useSelector((state) => state.userLogin);
   const { id } = useParams();
+  const isAdmin = userLogin.userInfo?.role
+    ? userLogin.userInfo?.role == "admin"
+    : false;
   useEffect(() => {
     if (location?.state?.product) {
       setProduct(location?.state?.product);
@@ -26,15 +30,13 @@ const Product = () => {
         setProduct(resp.data);
       });
     }
-  });
+  }, [location]);
 
   const addToCartHandler = () => {
     if (qty > 0) {
       dispatch(addToCart(product, qty));
     }
   };
-
-  console.log(process.env.PUBLIC_URL);
 
   return (
     <>
@@ -93,14 +95,21 @@ const Product = () => {
                 </i>
               </div>
               <hr className="hr" />
+              {isAdmin ? (
+                <Link to="/dashboard/modify" state={{ product: product }}>
+                  <IoCreateOutline className="user-icon" />
+                </Link>
+              ) : (
+                <></>
+              )}
             </div>
           </div>
         </section>
       ) : (
         <div className="product-container mx-auto my-5 p-5">
-          <Message variant="danger">
+          <Alert variant="danger">
             <h3>Le produit que vous recherchez n'existe pas</h3>
-          </Message>
+          </Alert>
         </div>
       )}
     </>

@@ -7,6 +7,7 @@ import Footer from "./components/Footer/Footer";
 import ScrollToTop from "./components/ScrollToTop";
 import ShoppingList from "./components/ShoppingList/ShoppingList";
 import Product from "./components/Product/Product";
+import Message from "./components/Message/Message";
 
 // const ShoppingList = React.lazy(() =>
 //   import("./components/ShoppingList/ShoppingList")
@@ -21,7 +22,12 @@ const Shipping = React.lazy(() => import("./components/Shipping/Shipping"));
 const Login = React.lazy(() => import("./components/Login/Login"));
 const Validation = React.lazy(() => import("./components/Login/Validation"));
 const Profile = React.lazy(() => import("./components/Profile/Profile"));
-const Message = React.lazy(() => import("./components/Message/Message"));
+// const Message = React.lazy(() => import("./components/Message/Message"));
+const Admin = React.lazy(() => import("./components/Admin/Admin"));
+const Ordres = React.lazy(() => import("./components/Admin/Ordres"));
+const ModifyProduct = React.lazy(() =>
+  import("./components/Admin/ModifyProduct")
+);
 
 function App() {
   return (
@@ -125,6 +131,11 @@ function App() {
               </ScrollToTop>
             }
           />
+
+          <Route path="/dashboard" element={<Admin />}>
+            <Route path="ordres" element={<Ordres />} />
+            <Route path="modify" element={<ModifyProduct />} />
+          </Route>
         </Routes>
       </Suspense>
       <Footer></Footer>

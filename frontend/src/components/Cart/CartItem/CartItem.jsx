@@ -31,7 +31,6 @@ const CartItem = ({ item, qty: initialQty }) => {
       <div className="bag-item-container  my-3 me-3">
         <Link
           className="bag-item-image"
-          replace
           to={`/product/${item._id}`}
           state={{ product: item }}
         >
@@ -42,7 +41,7 @@ const CartItem = ({ item, qty: initialQty }) => {
           />
         </Link>
         <div className="bag-item-details">
-          <Link replace to={`/product/${item._id}`} state={{ product: item }}>
+          <Link to={`/product/${item._id}`} state={{ product: item }}>
             <h6>{item.nom}</h6>
           </Link>
           <p className="small ">{item.labo}</p>

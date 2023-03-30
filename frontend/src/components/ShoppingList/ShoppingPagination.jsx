@@ -4,14 +4,17 @@ const ShoppingPagination = ({ pages, currentPage, SetcurrentPage }) => {
   var items = [];
 
   if (pages > 1) {
-    items.push(
-      <Pagination.First
-        key={0}
-        onClick={() => {
-          SetcurrentPage(1);
-        }}
-      />
-    );
+    if (currentPage > 1) {
+      items.push(
+        <Pagination.First
+          key={0}
+          onClick={() => {
+            SetcurrentPage(currentPage - 1);
+          }}
+        />
+      );
+    }
+
     if (pages < 7) {
       for (let number = 1; number <= pages; number++) {
         items.push(
@@ -115,14 +118,16 @@ const ShoppingPagination = ({ pages, currentPage, SetcurrentPage }) => {
         }
       }
     }
-    items.push(
-      <Pagination.Last
-        key={103}
-        onClick={() => {
-          SetcurrentPage(pages);
-        }}
-      />
-    );
+    if (currentPage < pages) {
+      items.push(
+        <Pagination.Last
+          key={103}
+          onClick={() => {
+            SetcurrentPage(currentPage + 1);
+          }}
+        />
+      );
+    }
   }
   return <Pagination className="shopping-pagination">{items}</Pagination>;
 };

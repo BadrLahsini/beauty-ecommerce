@@ -24,6 +24,11 @@ const userSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    address: {
+      address: { type: String },
+      city: { type: String },
+      region: { type: String },
+    },
     points: {
       type: Number,
       default: 0,

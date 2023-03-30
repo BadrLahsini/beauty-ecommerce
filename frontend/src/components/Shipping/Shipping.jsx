@@ -4,6 +4,8 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Modal from "react-bootstrap/Modal";
 import { createOrder } from "../../actions/orderActions";
+import { clearCart } from "../../actions/cartActions";
+
 import { useNavigate } from "react-router-dom";
 
 const Shipping = () => {
@@ -29,8 +31,13 @@ const Shipping = () => {
 
   useEffect(() => {
     if (userInfo) {
-      setphone(userInfo.phone);
       setEmail(userInfo.email);
+      setPrenom(userInfo.name);
+      setName(userInfo.lastName);
+      setphone(userInfo.phone ?? "");
+      setaddress(userInfo.address?.address ?? "");
+      setCity(userInfo.address?.city ?? "");
+      setRegion(userInfo.address?.region ?? "");
     }
   }, [userInfo]);
 
@@ -47,22 +54,28 @@ const Shipping = () => {
   };
 
   const placeOrderHandler = () => {
-    disptach(
-      createOrder({
-        shippingUser: { firstName: prenom, lastName: name, phone, email },
-        orderItems: cartItems,
-        shippingAddress: { address, city, region },
-        paymentMethod: "livraison",
-        shippingPrice: livraison,
-        totalPrice: total,
-        comments: infos,
-      })
-    );
-    handleClose();
-    navigate(
-      { pathname: `/message/success` },
-      { state: { message: "Votre commande a ete valide avec succes" } }
-    );
+    createOrder({
+      shippingUser: { firstName: prenom, lastName: name, phone, email },
+      orderItems: cartItems,
+      shippingAddress: { address, city, region },
+      paymentMethod: "livraison",
+      shippingPrice: livraison,
+      totalPrice: total,
+      comments: infos,
+      userInfo,
+    }).then((res) => {
+      console.log(res);
+      disptach(clearCart());
+      handleClose();
+      navigate(
+        { pathname: `/message/success` },
+        {
+          state: {
+            message: `commande validé avec succes. ID de suivi : ${res.data._id} `,
+          },
+        }
+      );
+    });
   };
 
   return (
@@ -82,6 +95,7 @@ const Shipping = () => {
                       <input
                         type="text"
                         className="form-control"
+                        value={prenom}
                         onChange={(e) => setPrenom(e.target.value)}
                         required
                       />
@@ -92,6 +106,7 @@ const Shipping = () => {
                     <div className="form-outline">
                       <input
                         type="text"
+                        value={name}
                         className="form-control"
                         onChange={(e) => setName(e.target.value)}
                         required
@@ -115,6 +130,7 @@ const Shipping = () => {
                   <input
                     type="text"
                     className="form-control"
+                    value={address}
                     onChange={(e) => setaddress(e.target.value)}
                     required
                   />
@@ -127,6 +143,7 @@ const Shipping = () => {
                       <input
                         type="text"
                         className="form-control"
+                        value={city}
                         onChange={(e) => setCity(e.target.value)}
                         required
                       />
@@ -137,6 +154,7 @@ const Shipping = () => {
                     <div className="form-outline">
                       <input
                         type="text"
+                        value={region}
                         className="form-control"
                         onChange={(e) => setRegion(e.target.value)}
                         required
@@ -193,12 +211,12 @@ const Shipping = () => {
                     </span>
                   </li>
                 </ul>
-                <div className="form-check  mb-3">
+                {/* <div className="form-check  mb-3">
                   <input className="form-check-input me-2" type="checkbox" />
                   <label className="form-check-label">
                     <small>j'accepte les termes et conditions</small>
                   </label>
-                </div>
+                </div> */}
                 <button className="btn btn-success " type="submit">
                   Valider la commande
                 </button>

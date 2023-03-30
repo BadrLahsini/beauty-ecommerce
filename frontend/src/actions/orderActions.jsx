@@ -27,8 +27,24 @@ import {
   ORDER_ORDERED_FAIL,
 } from "../constants/orderConstants";
 import { logout } from "./userActions";
+export const createOrder = async (order) => {
+  let result;
+  if (order.userInfo) {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${order.userInfo.token}`,
+      },
+    };
+    result = await axios.post(`/api/orders`, order, config);
+  } else {
+    result = await axios.post(`/api/orders`, order);
+  }
+  localStorage.removeItem("cartItems");
+  return result;
+};
 
-export const createOrder = (order) => async (dispatch, getState) => {
+export const createOrder2 = (order) => async (dispatch, getState) => {
   try {
     dispatch({
       type: ORDER_CREATE_REQUEST,
@@ -214,7 +230,7 @@ export const sendOrder = (order) => async (dispatch, getState) => {
     };
 
     const { data } = await axios.put(
-      `/api/orders/${order._id}/deliver`,
+      `/api/orders/${order._id}/send`,
       {},
       config
     );
@@ -255,7 +271,7 @@ export const orderOrder = (order) => async (dispatch, getState) => {
     };
 
     const { data } = await axios.put(
-      `/api/orders/${order._id}/deliver`,
+      `/api/orders/${order._id}/order`,
       {},
       config
     );
@@ -316,39 +332,129 @@ export const listMyOrders = () => async (dispatch, getState) => {
   }
 };
 
-export const listOrders = () => async (dispatch, getState) => {
-  try {
-    dispatch({
-      type: ORDER_LIST_REQUEST,
-    });
+export const listOrders =
+  (pageNumber = 1, currentOrder = null, currRoute = "") =>
+  async (dispatch, getState) => {
+    const { orderList } = getState();
+    if (currentOrder && orderList.orders) {
+      let newOrders;
+      dispatch({
+        type: ORDER_LIST_REQUEST,
+      });
 
-    const {
-      userLogin: { userInfo },
-    } = getState();
+      switch (currRoute) {
+        case "order":
+          newOrders = orderList.orders.map((x) =>
+            x._id === currentOrder._id
+              ? (x = {
+                  ...x,
+                  isOrdered: true,
+                  orderedAt: new Date(Date.now()).toJSON(),
+                })
+              : x
+          );
+          dispatch({
+            type: ORDER_LIST_SUCCESS,
+            payload: { orders: newOrders },
+          });
+          break;
+        case "send":
+          newOrders = orderList.orders.map((x) =>
+            x._id === currentOrder._id
+              ? (x = {
+                  ...x,
+                  isSent: true,
+                  sentAt: new Date(Date.now()).toJSON(),
+                })
+              : x
+          );
 
-    const config = {
-      headers: {
-        Authorization: `Bearer ${userInfo.token}`,
-      },
-    };
+          dispatch({
+            type: ORDER_LIST_SUCCESS,
+            payload: { orders: newOrders },
+          });
+          break;
+        case "deliver":
+          newOrders = orderList.orders.map((x) =>
+            x._id === currentOrder._id
+              ? (x = {
+                  ...x,
+                  isDelivered: true,
+                  deliveredAt: new Date(Date.now()).toJSON(),
+                })
+              : x
+          );
 
-    const { data } = await axios.get(`/api/orders`, config);
+          dispatch({
+            type: ORDER_LIST_SUCCESS,
+            payload: { orders: newOrders },
+          });
+          break;
+        case "reset":
+          newOrders = orderList.orders.map((x) =>
+            x._id === currentOrder._id
+              ? (x = {
+                  ...x,
+                  isSent: false,
+                  isDelivered: false,
+                  isOrdered: false,
+                })
+              : x
+          );
+          dispatch({
+            type: ORDER_LIST_SUCCESS,
+            payload: { orders: newOrders },
+          });
+          break;
+        case "delete":
+          newOrders = orderList.orders.filter(
+            (x) => x._id !== currentOrder._id
+          );
+          dispatch({
+            type: ORDER_LIST_SUCCESS,
+            payload: { orders: newOrders },
+          });
+          break;
 
-    dispatch({
-      type: ORDER_LIST_SUCCESS,
-      payload: data,
-    });
-  } catch (error) {
-    const message =
-      error.response && error.response.data.message
-        ? error.response.data.message
-        : error.message;
-    if (message === "Not authorized, token failed") {
-      dispatch(logout());
+        default:
+          break;
+      }
+    } else {
+      try {
+        dispatch({
+          type: ORDER_LIST_REQUEST,
+        });
+
+        const {
+          userLogin: { userInfo },
+        } = getState();
+
+        const config = {
+          headers: {
+            Authorization: `Bearer ${userInfo.token}`,
+          },
+        };
+
+        const { data } = await axios.get(
+          `/api/orders?page=${pageNumber}`,
+          config
+        );
+        dispatch({
+          type: ORDER_LIST_SUCCESS,
+          payload: data,
+        });
+      } catch (error) {
+        const message =
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message;
+        if (message === "Not authorized, token failed") {
+          dispatch(logout());
+        }
+        dispatch({
+          type: ORDER_LIST_FAIL,
+          payload: message,
+        });
+      }
     }
-    dispatch({
-      type: ORDER_LIST_FAIL,
-      payload: message,
-    });
-  }
-};
+  };
